@@ -1,0 +1,120 @@
+/************************************************************************************************************************************************************************                                              
+ * - Author           : BEE MB                       *                                               
+ * - Profession       : (Developer) MEGA DAS owner   *                                                                                              
+ * - Main purpose     : Industrial Application       *                                                                                  
+ * - Copyright holder : No copyrights                *                                  
+ * - Date             : 06/09/2016                   *
+ * ***********************************************************************************************************************************************************************/
+// the used PINs
+const int s0=A3;
+const int s1=A4;
+const int s2=A1;
+const int s3=A2;
+const int sensorData=A0;
+// Global variable to store 
+// Global variable to store data
+
+int dataR=0;
+int dataB=0;
+int dataG=0;
+
+void setup() 
+{
+   pinMode(s0,OUTPUT);
+   pinMode(s1,OUTPUT);
+   pinMode(s2,OUTPUT);
+   pinMode(s3,OUTPUT);
+   pinMode(sensorData,INPUT);
+   Serial.begin(9600);
+
+   digitalWrite(s0,HIGH);
+   digitalWrite(s1,HIGH);
+   
+}
+
+void loop()
+{
+   digitalWrite(s2,LOW);
+   digitalWrite(s3,LOW);
+   dataR=pulseIn(sensorData,LOW);
+   delay(20);
+
+   digitalWrite(s2,HIGH);
+   digitalWrite(s3,HIGH);
+   dataG=pulseIn(sensorData,LOW);
+   delay(20);
+
+   digitalWrite(s2,LOW);
+   digitalWrite(s3,HIGH);
+   dataB=pulseIn(sensorData,LOW);
+   delay(20);
+   if(isRed())
+   {
+    Serial.println("this is the RED color");
+   
+   }
+   if(isBlue())
+   {
+    Serial.println("this is the Blue color");
+  
+   }
+   if(isGreen())
+   {
+    Serial.println("this is the GREEN color");
+ 
+   }
+ 
+   if(isWhite())
+   {
+     Serial.println("this is the White color");
+    }
+}
+
+bool isRed()
+{
+  if((dataR<18 && dataR>12) && (dataG<49 && dataG>43) && (dataB<70 && dataB>64))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+bool isGreen()
+{
+  if((dataR<53 && dataR>47) && (dataG<44 && dataG>38) && (dataB<34 && dataB>28))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+bool isBlue()
+{
+  if((dataR<16 && dataR>12) && (dataG<14 && dataG>12) && (dataB<10 && dataB>7))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+
+bool isWhite()
+{
+  if(dataR==6 && dataG==6 && dataB==5)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
